@@ -1,4 +1,3 @@
-import { useAuth } from '@/hooks/use-auth';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -9,7 +8,8 @@ type Props = {
 
 export default function Sidebar({ onClose }: Props) {
   const router = useRouter();
-  const { user, signOut } = useAuth();
+  // Auth removed — show guest info and perform simple navigation on logout
+  const user = null;
 
   const nav = (path: string) => {
     onClose?.();
@@ -66,13 +66,9 @@ export default function Sidebar({ onClose }: Props) {
 
         <Pressable
           style={styles.item}
-          onPress={async () => {
-            try {
-              await signOut();
-              router.replace('/login');
-            } catch (e) {
-              console.warn('Logout failed', e);
-            }
+          onPress={() => {
+            onClose?.();
+            router.replace('/login');
           }}>
           <Ionicons name="log-out-outline" size={20} color="#333" />
           <Text style={styles.itemText}>Logout</Text>
